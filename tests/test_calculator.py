@@ -2,7 +2,7 @@ import io
 import unittest
 from contextlib import redirect_stdout
 
-from calculator import add, format_number, main, to_number
+from calculator import add, add_many, format_number, main, to_number
 
 
 class TestAdd(unittest.TestCase):
@@ -36,6 +36,16 @@ class TestAdd(unittest.TestCase):
             to_number("สิบ")
 
 
+class TestAddMany(unittest.TestCase):
+    def test_add_many_numbers(self):
+        self.assertEqual(add_many(1, 2, 3, 4), 10)
+        self.assertEqual(add_many("0.1", "0.2", "0.3"), 0.6)
+
+    def test_add_many_needs_two_numbers(self):
+        with self.assertRaises(ValueError):
+            add_many(5)
+
+
 class TestFormat(unittest.TestCase):
     def test_format_number(self):
         self.assertEqual(format_number(1234567), "1,234,567")
@@ -58,8 +68,11 @@ class TestCli(unittest.TestCase):
         self.assertEqual(code, 1)
         self.assertIn("ผิดพลาด", output)
 
+    def test_cli_adds_many_numbers(self):
+        self.assertEqual(self.run_cli(["1", "2", "3", "4"]), (0, "1 + 2 + 3 + 4 = 10"))
+
     def test_cli_usage_with_wrong_argument_count(self):
-        code, output = self.run_cli(["1", "2", "3"])
+        code, output = self.run_cli(["1"])
         self.assertEqual(code, 2)
         self.assertIn("ใช้งาน", output)
 

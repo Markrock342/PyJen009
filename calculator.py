@@ -2,6 +2,7 @@
 
 ใช้งาน:
     python3 calculator.py 2 3        -> 2 + 3 = 5
+    python3 calculator.py 1 2 3 4    -> 1 + 2 + 3 + 4 = 10
     python3 calculator.py            -> ถามตัวเลขทีละตัว
 """
 
@@ -36,6 +37,16 @@ def add(a, b):
     return float(total)
 
 
+def add_many(*values):
+    """บวกเลขหลายจำนวน ต้องมีอย่างน้อย 2 จำนวน"""
+    if len(values) < 2:
+        raise ValueError("ต้องมีตัวเลขอย่างน้อย 2 จำนวน")
+    total = 0
+    for value in values:
+        total = add(total, value)
+    return total
+
+
 def format_number(value):
     """แสดงผลตัวเลขให้อ่านง่าย เช่น 1234.5 -> 1,234.5"""
     if isinstance(value, int):
@@ -46,19 +57,19 @@ def format_number(value):
 def main(argv=None):
     args = sys.argv[1:] if argv is None else argv
     try:
-        if len(args) == 2:
-            a, b = args
+        if len(args) >= 2:
+            numbers = args
         elif not args:
-            a = input("ตัวเลขที่ 1: ")
-            b = input("ตัวเลขที่ 2: ")
+            numbers = [input("ตัวเลขที่ 1: "), input("ตัวเลขที่ 2: ")]
         else:
-            print("ใช้งาน: python3 calculator.py <ตัวเลข1> <ตัวเลข2>")
+            print("ใช้งาน: python3 calculator.py <ตัวเลข1> <ตัวเลข2> [ตัวเลขอื่น ๆ ...]")
             return 2
-        result = add(a, b)
+        result = add_many(*numbers)
     except ValueError as error:
         print(f"ผิดพลาด: {error}")
         return 1
-    print(f"{to_number(a).normalize():f} + {to_number(b).normalize():f} = {format_number(result)}")
+    expression = " + ".join(f"{to_number(n).normalize():f}" for n in numbers)
+    print(f"{expression} = {format_number(result)}")
     return 0
 
 

@@ -15,7 +15,7 @@ from urllib.parse import parse_qs, urlparse
 
 from calculator import add, format_number
 
-VERSION = "1.0.0"
+VERSION = "1.1.0"
 
 PAGE = """<!DOCTYPE html>
 <html lang="th">

@@ -11,15 +11,16 @@ push โค้ดขึ้น GitHub แล้ว Jenkins จะ **Build → Tes
 ```bash
 python3 calculator.py 2 3          # 2 + 3 = 5
 python3 calculator.py 0.1 0.2      # 0.1 + 0.2 = 0.3  (ใช้ Decimal จึงไม่คลาดเคลื่อนแบบ float)
+python3 calculator.py 1 2 3 4      # 1 + 2 + 3 + 4 = 10  (เวอร์ชัน 1.1.0)
 python3 calculator.py              # ถามตัวเลขทีละตัว
 python3 app.py                     # หน้าเว็บที่ http://127.0.0.1:8009
 ```
 
 | ไฟล์ | หน้าที่ |
 |---|---|
-| `calculator.py` | ฟังก์ชัน `add(a, b)` และโปรแกรมแบบพิมพ์คำสั่ง |
+| `calculator.py` | ฟังก์ชัน `add(a, b)`, `add_many(...)` และโปรแกรมแบบพิมพ์คำสั่ง |
 | `app.py` | หน้าเว็บบวกเลข + API `/api/add?a=2&b=3` + `/health` (ใช้ตอน Deploy) |
-| `tests/` | เทส 16 ข้อด้วย `unittest` |
+| `tests/` | เทส 19 ข้อด้วย `unittest` |
 | `scripts/deploy.sh` | คัดลอกไป `~/PyJen009-deploy` แล้วเปิดเว็บเวอร์ชันใหม่ที่พอร์ต 8009 |
 | `Jenkinsfile` | pipeline 3 stage และเช็ก GitHub ทุก 1 นาที |
 
